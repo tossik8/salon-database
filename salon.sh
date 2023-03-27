@@ -24,17 +24,17 @@ MAIN_MENU(){
 }
 READ_SERVICE(){
   read SERVICE_ID_SELECTED
-
-  if [[ ! $SERVICE_ID_SELECTED =~ ^[0-9]+$ ]]
+  
+  if [[ ! $SERVICE_ID_SELECTED =~ ^[0-9]+$ ]] 
   then
     MAIN_MENU "I could not find that service. What would you like today?"
   else
     SERVICE_RECORD=$($PSQL "SELECT service_id FROM services WHERE service_id = $SERVICE_ID_SELECTED")
     SERVICE_RECORD=$(echo "$SERVICE_RECORD" | sed '1d;2d;$d')
-    if [[ -z $SERVICE_RECORD ]]
+    if [[ -z $SERVICE_RECORD ]] 
     then
       MAIN_MENU "I could not find that service. What would you like today?"
-    else
+    else 
       GET_CUSTOMER
     fi
   fi
@@ -50,10 +50,6 @@ GET_CUSTOMER(){
     echo -e "\nI don't have a record for that phone number, what's your name?"
     read CUSTOMER_NAME
     INSERT_CUSTOMER=$($PSQL "INSERT INTO customers(phone, name) VALUES('$CUSTOMER_PHONE', '$CUSTOMER_NAME')")
-    if [[ $INSERT_CUSTOMER != "INSERT 0 1" ]]
-    then
-      echo $INSERT_CUSTOMER
-    fi
   fi
   ARRANGE_APPOINTMENT
 }
@@ -71,4 +67,4 @@ ARRANGE_APPOINTMENT(){
   echo -e "\nI have put you down for a $SERVICE_NAME at $SERVICE_TIME, $CUSTOMER_NAME."
 }
 
-MAIN_MENU
+MAIN_MENU 
